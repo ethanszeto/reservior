@@ -14,6 +14,8 @@ const MemorySchema = new Schema(
         people: [{ type: Schema.Types.ObjectId, ref: "Users" }],
       },
     ],
+    creationTime: { type: Date, required: true },
+    modificationTime: { type: Date, required: true },
   },
   {
     collection: "memories",

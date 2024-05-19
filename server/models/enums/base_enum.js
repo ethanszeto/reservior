@@ -7,15 +7,15 @@ class BaseEnum {
     return this.value;
   }
 
-  static list() {
+  list() {
     return Object.values(this);
   }
 
-  static listr() {
+  listr() {
     return Object.values(this).map((e) => e.toString());
   }
 
-  static toEnum(str) {
+  toEnum(str) {
     return (
       this.list().find((e) => e.toString() === str) ??
       (() => {
