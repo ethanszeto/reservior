@@ -1,4 +1,4 @@
-import { BaseModel, number, string, date } from "./base_model.js";
+import { BaseModel, BaseModelUpdate, string, date, BaseModelUpdate } from "./base_model.js";
 
 export class UserCreate extends BaseModel {
   static schema = {
@@ -9,4 +9,41 @@ export class UserCreate extends BaseModel {
     creationTime: { type: date, default: Date.now(), override: true },
     modificationTime: { type: date, default: Date.now(), override: true },
   };
+  constructor(json) {
+    super(json, UserCreate.schema);
+  }
+}
+
+export class UserResponse extends BaseModel {
+  static schema = {
+    firstName: { type: string, required: true },
+    lastName: { type: string, required: true },
+    username: { type: string, required: true },
+    creationTime: { type: date, required: true },
+    modificationTime: { type: date, required: true },
+  };
+  constructor(json) {
+    super(json, UserResponse.schema);
+  }
+}
+
+export class UserUpdate extends BaseModelUpdate {
+  static schema = {
+    firstName: { type: string },
+    lastName: { type: string },
+    password: { type: string },
+    modificationTime: { type: date, default: Date.now(), override: true },
+  };
+  constructor(json) {
+    super(json, UserUpdate.schema);
+  }
+}
+
+export default class UserDelete extends BaseModel {
+  static schema = {
+    username: { type: string, required: true },
+  };
+  constructor(json) {
+    super(json, UserDelete.schema);
+  }
 }
