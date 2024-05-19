@@ -1,5 +1,8 @@
-import { ErrorInternalAPIModelFieldValidation } from "../error/internal_error.js";
-import { ErrorInternalAPIModelValidation } from "../error/internal_error.js";
+import {
+  ErrorInternalAPIModelFieldValidation,
+  ErrorInternalAPIModelSchemaValidation,
+  ErrorInternalAPIModelValidation,
+} from "../error/internal_error.js";
 
 // Delegated Atomic Types
 export const number = "number";
@@ -57,15 +60,15 @@ export class BaseModel {
 
       // valid schema creation
       if (required && type(required) !== boolean) {
-        throw new Error("Required option not boolean.");
+        throw new ErrorInternalAPIModelSchemaValidation("Required option not boolean.");
       }
 
       if (override && type(override) !== boolean) {
-        throw new Error("Override option not boolean.");
+        throw new ErrorInternalAPIModelSchemaValidation("Override option not boolean.");
       }
 
       if (enumValues && type(enumValues) !== array) {
-        throw new Error("Enum values must be a list.");
+        throw new ErrorInternalAPIModelSchemaValidation("Enum values must be a list.");
       }
 
       // override set
@@ -76,7 +79,7 @@ export class BaseModel {
 
       // required
       if (required && value === undefined) {
-        throw new Error(`Field '${key}' is required.`);
+        throw new ErrorInternalAPIModelFieldValidation(`Field '${key}' is required.`);
       }
 
       if (!required && value === undefined) {
@@ -85,17 +88,21 @@ export class BaseModel {
 
       // mismatch type
       if (type(value) !== type(schemaType)) {
-        throw new Error(`Field '${key}' must have type '${schemaType}.'`);
+        throw new ErrorInternalAPIModelFieldValidation(`Field '${key}' must have type '${schemaType}.'`);
       }
 
       // enum values (check complex enum values, like objects or lists)
       if (enumValues) {
         if (type(value) !== array && !contains(enumValues, value)) {
           // single enum
-          throw new Error(`Invalid value '${value}' for field '${key}'. Must be one of: ${enumValues.join(", ")}`);
+          throw new ErrorInternalAPIModelFieldValidation(
+            `Invalid value '${value}' for field '${key}'. Must be one of: ${enumValues.join(", ")}`
+          );
         } else if (type(value) === array && !value.every((enumValue) => contains(enumValues, enumValue))) {
           // list of enum
-          throw new Error(`Invalid value '${value}' for field '${key}'. Must be list of: ${enumValues.join(", ")}`);
+          throw new ErrorInternalAPIModelFieldValidation(
+            `Invalid value '${value}' for field '${key}'. Must be list of: ${enumValues.join(", ")}`
+          );
         }
         // all enum values handled
         continue;
@@ -113,7 +120,7 @@ export class BaseModel {
         if (type(arrayType) !== object) {
           // basic list
           if (value.some((item) => type(item) !== arrayType)) {
-            throw new Error(`Invalid element of '${value}' not of type '${arrayType}'`);
+            throw new ErrorInternalAPIModelFieldValidation(`Invalid element of '${value}' not of type '${arrayType}'`);
           }
         } else {
           // list of objects

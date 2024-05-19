@@ -10,6 +10,12 @@ export class ErrorInternalAPIModelFieldValidation extends InternalError {
   }
 }
 
+export class ErrorInternalAPIModelSchemaValidation extends InternalError {
+  constructor(msg) {
+    super(msg);
+  }
+}
+
 export class ErrorInternalAPIModelValidation extends InternalError {
   constructor(msg) {
     super(msg);
