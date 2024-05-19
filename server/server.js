@@ -4,6 +4,7 @@ import helmet from "helmet";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import defaultRouter from "./routes/default.js";
+import userRouter from "./routes/user.js";
 
 /**
  * This file controls the express server and
@@ -19,5 +20,6 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use("/", defaultRouter);
+app.use("/user", userRouter);
 
 export default app;

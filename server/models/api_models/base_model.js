@@ -1,5 +1,5 @@
-import { ErrorInternalAPIModelFieldValidation } from "../error/internal_errors.js";
-import { ErrorInternalAPIModelValidation } from "../error/internal_errors.js";
+import { ErrorInternalAPIModelFieldValidation } from "../error/internal_error.js";
+import { ErrorInternalAPIModelValidation } from "../error/internal_error.js";
 
 // Delegated Atomic Types
 export const number = "number";
@@ -30,10 +30,6 @@ export class BaseModel {
   }
 
   /**
-   * METHOD LOOKING TO BE IMPROVED
-   * - validate the fields and only the correct fields there (cut out invalid)
-   * - validate more specific things that could go wrong (ex. non boolean in required)
-   *
    * Given a Schema, this method will ensure the given JSON
    * conforms to the types defined in the schema. Throws an error
    * if improper type.
