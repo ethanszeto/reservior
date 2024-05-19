@@ -1,0 +1,10 @@
+// restaurant
+// area
+// neighborhood
+// street
+// city
+// state
+// country
+// museum
+// landmark
+// misc
