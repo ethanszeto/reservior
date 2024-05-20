@@ -37,6 +37,7 @@ export default class Connection {
       mongoose.connect(DATABASE_URL, {
         maxPoolSize: 50,
         socketTimeoutMS: 2500,
+        autoIndex: true,
       });
 
       connection = mongoose.connection;

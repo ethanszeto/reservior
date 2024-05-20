@@ -2,16 +2,7 @@ import {
   ErrorInternalAPIModelFieldValidation,
   ErrorInternalAPIModelSchemaValidation,
   ErrorInternalAPIModelValidation,
-} from "../error/internal_error.js";
-
-// Delegated Atomic Types
-export const number = "number";
-export const boolean = "boolean";
-export const string = "string";
-export const array = "array";
-export const object = "object";
-export const date = "date";
-export const empty = "undefined";
+} from "../../errors/internal_error.js";
 
 /**
  * BaseModel Abstract Class
@@ -41,6 +32,14 @@ export class BaseModel {
    * @param {JSON} schema
    */
   validate(json, schema) {
+    // add fields in schema not given in json to json
+    for (const key in schema) {
+      if (!json.hasOwnProperty(key)) {
+        json[key] = undefined;
+      }
+    }
+
+    // iterate through json
     for (const key in json) {
       // the key does not exist in the schema
       if (schema[key] === undefined) {
@@ -73,8 +72,9 @@ export class BaseModel {
 
       // override set
       if ((value === undefined && defaultValue !== undefined) || override) {
-        json[key] = defaultValue;
-        value = defaultValue;
+        json[key] = typeof defaultValue === "function" ? defaultValue() : defaultValue;
+        console.log(typeof defaultValue);
+        value = json[key];
       }
 
       // required
@@ -87,8 +87,8 @@ export class BaseModel {
       }
 
       // mismatch type
-      if (type(value) !== type(schemaType)) {
-        throw new ErrorInternalAPIModelFieldValidation(`Field '${key}' must have type '${schemaType}.'`);
+      if (type(value) !== schemaType) {
+        throw new ErrorInternalAPIModelFieldValidation(`Field '${key}' must have type '${schemaType}.' Given: ${value}`);
       }
 
       // enum values (check complex enum values, like objects or lists)
@@ -129,60 +129,6 @@ export class BaseModel {
       }
     }
   }
-
-  /**
-   * type function
-   *
-   * Returns the API Model atomic type of the given object.
-   *
-   * @param {any} obj
-   * @returns {boolean}
-   */
-  type(obj) {
-    if (Array.isArray(obj)) {
-      return array;
-    }
-    if (obj instanceof Date) {
-      return date;
-    }
-    if (typeof obj === string) {
-      switch (obj) {
-        case boolean:
-          return boolean;
-        case number:
-          return number;
-        case string:
-          return string;
-        case object:
-          return object;
-        case array:
-          return array;
-        case date:
-          return date;
-        case empty:
-          return empty;
-      }
-    }
-    return typeof obj;
-  }
-
-  /**
-   * contains function
-   *
-   * Stronger contains that relies on JSON.stringify of
-   * objects to determine membership in a list.
-   *
-   * @param {Array} list
-   * @param {any} value
-   * @returns {boolean}
-   */
-  contains(list, value) {
-    if (type(list) !== array) {
-      return false;
-    }
-    let strValue = JSON.stringify(value);
-    return list.some((e) => JSON.stringify(e) === strValue);
-  }
 }
 
 export class BaseModelUpdate extends BaseModel {
@@ -203,4 +149,70 @@ export class BaseModelUpdate extends BaseModel {
       throw new ErrorInternalAPIModelFieldValidation("Invalid update model.");
     }
   }
+}
+
+// Delegated Atomic Types
+export const number = "number";
+export const boolean = "boolean";
+export const string = "string";
+export const array = "array";
+export const object = "object";
+export const date = "date";
+export const empty = "undefined";
+
+// current date default option
+export const now = () => new Date();
+
+/**
+ * type function
+ *
+ * Returns the API Model atomic type of the given object.
+ *
+ * @param {any} obj
+ * @returns {boolean}
+ */
+function type(obj) {
+  if (Array.isArray(obj)) {
+    return array;
+  }
+  if (obj instanceof Date) {
+    return date;
+  }
+  if (typeof obj === string) {
+    switch (obj) {
+      case boolean:
+        return boolean;
+      case number:
+        return number;
+      case string:
+        return string;
+      case object:
+        return object;
+      case array:
+        return array;
+      case date:
+        return date;
+      case empty:
+        return empty;
+    }
+  }
+  return typeof obj;
+}
+
+/**
+ * contains function
+ *
+ * Stronger contains that relies on JSON.stringify of
+ * objects to determine membership in a list.
+ *
+ * @param {Array} list
+ * @param {any} value
+ * @returns {boolean}
+ */
+function contains(list, value) {
+  if (type(list) !== array) {
+    return false;
+  }
+  let strValue = JSON.stringify(value);
+  return list.some((e) => JSON.stringify(e) === strValue);
 }

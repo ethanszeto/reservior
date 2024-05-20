@@ -1,4 +1,4 @@
-import { BaseModel, BaseModelUpdate, string, date, BaseModelUpdate } from "./base_model.js";
+import { BaseModel, BaseModelUpdate, string, date, now } from "./base_model.js";
 
 export class UserCreate extends BaseModel {
   static schema = {
@@ -6,8 +6,8 @@ export class UserCreate extends BaseModel {
     lastName: { type: string, required: true },
     username: { type: string, required: true },
     password: { type: string, required: true },
-    creationTime: { type: date, default: Date.now(), override: true },
-    modificationTime: { type: date, default: Date.now(), override: true },
+    creationTime: { type: date, default: now, override: true },
+    modificationTime: { type: date, default: now, override: true },
   };
   constructor(json) {
     super(json, UserCreate.schema);
@@ -32,7 +32,7 @@ export class UserUpdate extends BaseModelUpdate {
     firstName: { type: string },
     lastName: { type: string },
     password: { type: string },
-    modificationTime: { type: date, default: Date.now(), override: true },
+    modificationTime: { type: date, default: now, override: true },
   };
   constructor(json) {
     super(json, UserUpdate.schema);
