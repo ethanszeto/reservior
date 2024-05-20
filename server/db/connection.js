@@ -35,8 +35,6 @@ export default class Connection {
 
       //Mongoose connect to the cluster.
       mongoose.connect(DATABASE_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
         maxPoolSize: 50,
         socketTimeoutMS: 2500,
       });

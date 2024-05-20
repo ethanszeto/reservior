@@ -9,7 +9,8 @@
     "drop": "node setup/drop.js",
     "reseed": "node setup/reseed.js",
     "reset": "node setup/drop.js",
-    "postreset": "node setup/reseed.js"
+    "postreset": "node setup/reseed.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
