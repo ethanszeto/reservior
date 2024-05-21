@@ -1,12 +1,18 @@
-import { UserCreate, UserResponse, UserLogin } from "../models/api_models/user.js";
-import UserAccessor from "../db_accessors/user.js";
-//import { config as dotenvConfig } from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { UserCreate, UserResponse, UserLogin } from "../models/api_models/user.js";
+import UserAccessor from "../db_accessors/user.js";
+import Authorize from "../auth/authorization.js";
 import { ErrorInternalAPIModelValidation } from "../errors/internal_error.js";
 import { ErrorValidation, ErrorAlreadyLoggedIn, ErrorUserNotFound, ErrorInvalidLogin } from "../errors/http_error.js";
 
 export default class UserController {
+  /**
+   * Create a new account.
+   *
+   * @param {*} req
+   * @param {*} res
+   */
   static async createAccount(req, res) {
     try {
       const userCreate = new UserCreate(req.body);
@@ -23,6 +29,13 @@ export default class UserController {
     }
   }
 
+  /**
+   * Log into an existing account
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
   static async login(req, res) {
     try {
       const userLogin = new UserLogin(req.body);
@@ -64,6 +77,36 @@ export default class UserController {
       if (e instanceof ErrorInternalAPIModelValidation) {
         ErrorValidation.throwHttp(req, res, e.message);
       } else {
+        throw e;
+      }
+    }
+  }
+
+  /**
+   * Get the currently signed in user's data.
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  static async getUserMe(req, res) {
+    try {
+      const username = Authorize.getCurrentUser(req, res);
+
+      const db_user = await UserAccessor.getUserByUsername(username);
+
+      if (!db_user) {
+        return ErrorUserNotFound.throwHttp(req, res);
+      }
+
+      const userResponse = new UserResponse(db_user.toObject());
+
+      res.status(200).json(userResponse);
+    } catch (e) {
+      if (e instanceof ErrorInternalAPIModelValidation) {
+        ErrorValidation.throwHttp(req, res, e.message);
+      } else {
+        console.log(e);
         throw e;
       }
     }

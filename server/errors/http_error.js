@@ -19,9 +19,21 @@ export class ErrorValidation extends HttpError {
   }
 }
 
+export class ErrorNotLoggedIn extends HttpError {
+  static throwHttp(req, res, msg) {
+    res.status(403).json({ error: "User not logged in." });
+  }
+}
+
+export class ErrorInvalidToken extends HttpError {
+  static throwHttp(req, res, msg) {
+    res.status(403).json({ error: "Invalid login token." });
+  }
+}
+
 export class ErrorAlreadyLoggedIn extends HttpError {
   static throwHttp(req, res, msg) {
-    res.status(400).json({ error: "Already logged in." });
+    res.status(400).json({ error: "User already logged in." });
   }
 }
 
