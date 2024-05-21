@@ -12,4 +12,7 @@ router.route("/").get((req, res) => {
 /* Create Account Router */
 router.route("/create-account").post(UserController.createAccount);
 
+/* Create Account Router */
+router.route("/login").post(UserController.login);
+
 export default router;

@@ -18,3 +18,15 @@ export class ErrorValidation extends HttpError {
     res.status(400).json({ error: "Malformed API Model.", message: msg });
   }
 }
+
+export class ErrorAlreadyLoggedIn extends HttpError {
+  static throwHttp(req, res, msg) {
+    res.status(400).json({ error: "Already logged in." });
+  }
+}
+
+export class ErrorInvalidLogin extends HttpError {
+  static throwHttp(req, res, msg) {
+    res.status(400).json({ error: "Login with given credentials failed." });
+  }
+}

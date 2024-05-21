@@ -10,9 +10,7 @@
     "reseed": "node setup/reseed.js",
     "reset": "node setup/drop.js",
     "postreset": "node setup/reseed.js",
-    "pretest": "npm run reset",
-    "test": "jest --detectOpenHandles",
-    "posttest": "npm run reset"
+    "test": "jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",

@@ -39,7 +39,17 @@ export class UserUpdate extends BaseModelUpdate {
   }
 }
 
-export default class UserDelete extends BaseModel {
+export class UserLogin extends BaseModel {
+  static schema = {
+    username: { type: string, required: true },
+    password: { type: string, required: true },
+  };
+  constructor(json) {
+    super(json, UserLogin.schema);
+  }
+}
+
+export class UserDelete extends BaseModel {
   static schema = {
     username: { type: string, required: true },
   };
