@@ -35,7 +35,10 @@ export class BaseModel {
     // add fields in schema not given in json to json
     for (const key in schema) {
       if (!json.hasOwnProperty(key)) {
+        console.log("before", json);
+        console.log("added key: ", key, " with value: ", json[key]);
         json[key] = undefined;
+        console.log("after", json);
       }
     }
 
@@ -73,7 +76,6 @@ export class BaseModel {
       // override set
       if ((value === undefined && defaultValue !== undefined) || override) {
         json[key] = typeof defaultValue === "function" ? defaultValue() : defaultValue;
-        console.log(typeof defaultValue);
         value = json[key];
       }
 
@@ -87,7 +89,7 @@ export class BaseModel {
       }
 
       // mismatch type
-      if (type(value) !== schemaType) {
+      if (type(value) !== type(schemaType)) {
         throw new ErrorInternalAPIModelFieldValidation(`Field '${key}' must have type '${schemaType}.' Given: ${value}`);
       }
 

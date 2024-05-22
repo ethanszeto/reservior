@@ -1,5 +1,8 @@
+import Authorize from "../auth/authorization.js";
 import LocationAccessor from "../db_accessors/location.js";
 import { LocationCreate, LocationResponse } from "../models/api_models/location.js";
+import { ErrorInternalAPIModelValidation } from "../errors/internal_error.js";
+import { ErrorValidation } from "../errors/http_error.js";
 
 export default class LocationController {
   static async createLocation(req, res) {
@@ -8,8 +11,8 @@ export default class LocationController {
       req.body.user = username;
       const locationCreate = new LocationCreate(req.body);
       const dbLocation = await LocationAccessor.createLocation(locationCreate);
-      const location = new LocationResponse(dbLocation.toObject);
-      return location;
+      const locationResponse = new LocationResponse(dbLocation.toObject());
+      res.status(201).json(locationResponse);
     } catch (e) {
       if (e instanceof ErrorInternalAPIModelValidation) {
         ErrorValidation.throwHttp(req, res, e.message);

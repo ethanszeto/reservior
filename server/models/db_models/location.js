@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { LocationType } from "../enums/enums";
+import { LocationType } from "../enums/enums.js";
 
 const Schema = mongoose.Schema;
 

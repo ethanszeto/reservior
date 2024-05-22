@@ -1,4 +1,4 @@
-class BaseEnum {
+export default class BaseEnum {
   constructor(value) {
     this.value = value;
   }
@@ -7,15 +7,15 @@ class BaseEnum {
     return this.value;
   }
 
-  list() {
+  static list() {
     return Object.values(this);
   }
 
-  listr() {
+  static listr() {
     return Object.values(this).map((e) => e.toString());
   }
 
-  toEnum(str) {
+  static toEnum(str) {
     return (
       this.list().find((e) => e.toString() === str) ??
       (() => {

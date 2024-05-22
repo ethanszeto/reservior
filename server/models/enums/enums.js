@@ -1,3 +1,5 @@
+import BaseEnum from "../enums/base_enum.js";
+
 export class LocationType extends BaseEnum {
   static country = new LocationType("country");
   static state = new LocationType("state");
