@@ -14,6 +14,8 @@ const PeopleSchema = new Schema(
   }
 );
 
+PeopleSchema.index({ name: 1, user: 1 }, { unique: true });
+
 const db = mongoose.connection.useDb("reservior");
 const People = db.model("People", PeopleSchema);
 

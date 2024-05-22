@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import defaultRouter from "./routes/default.js";
 import userRouter from "./routes/user.js";
 import peopleRouter from "./routes/people.js";
+import locationRouter from "./routes/location.js";
 
 /**
  * This file controls the express server and
@@ -23,5 +24,6 @@ app.use(bodyParser.json());
 app.use("/", defaultRouter);
 app.use("/user", userRouter);
 app.use("/people", peopleRouter);
+app.use("/location", locationRouter);
 
 export default app;
