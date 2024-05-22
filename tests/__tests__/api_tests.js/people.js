@@ -47,4 +47,20 @@ describe("People tests", () => {
     console.log(response.body);
     expect(response.statusCode).toBe(200);
   });
+
+  test("Test invalid get people me, bad token", async () => {
+    const response = await request(app)
+      .get("/people/me")
+      .set("Cookie", [`token=${invalidLoginToken}`]);
+    await Connection.close();
+    console.log(response.body);
+    expect(response.statusCode).toBe(403);
+  });
+
+  test("Test invalid get people me, missing token", async () => {
+    const response = await request(app).get("/people/me");
+    await Connection.close();
+    console.log(response.body);
+    expect(response.statusCode).toBe(403);
+  });
 });
