@@ -12,6 +12,7 @@ export default class Authorize {
    * @returns
    */
   static auth(req, res, next) {
+    dotenv.config();
     if (!req.cookies.token) {
       return ErrorNotLoggedIn.throwHttp(req, res);
     }
@@ -33,6 +34,7 @@ export default class Authorize {
    * @returns
    */
   static getCurrentUser(req, res) {
+    dotenv.config();
     if (!req.cookies.token) {
       return ErrorNotLoggedIn.throwHttp(req, res);
     }

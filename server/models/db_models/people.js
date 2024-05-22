@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const PeopleSchema = new Schema(
   {
     name: { type: String, required: true },
+    user: { type: String, required: true },
     creationTime: { type: Date, required: true },
     modificationTime: { type: Date, required: true },
   },

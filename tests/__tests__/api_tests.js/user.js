@@ -16,7 +16,7 @@ describe("User tests", () => {
   test("Test user sign up", async () => {
     const response = await request(app).post("/user/create-account").send(validUserCreateJohn);
     console.log(response.body);
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
   });
 
   test("Test invalid user sign up, lacking field", async () => {

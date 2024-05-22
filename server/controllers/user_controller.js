@@ -17,9 +17,9 @@ export default class UserController {
     try {
       const userCreate = new UserCreate(req.body);
       userCreate.password = await bcrypt.hash(userCreate.password, 10);
-      const db_user = await UserAccessor.createUser(userCreate);
-      const userResponse = new UserResponse(db_user.toObject());
-      res.json(userResponse);
+      const dbUser = await UserAccessor.createUser(userCreate);
+      const userResponse = new UserResponse(dbUser.toObject());
+      res.status(201).json(userResponse);
     } catch (e) {
       if (e instanceof ErrorInternalAPIModelValidation) {
         ErrorValidation.throwHttp(req, res, e.message);
@@ -45,14 +45,14 @@ export default class UserController {
         return ErrorAlreadyLoggedIn.throwHttp(req, res);
       }
 
-      const db_user = await UserAccessor.getUserByUsername(userLogin.username);
+      const dbUser = await UserAccessor.getUserByUsername(userLogin.username);
 
       // User does not exist
-      if (!db_user) {
+      if (!dbUser) {
         return ErrorUserNotFound.throwHttp(req, res);
       }
 
-      const result = await bcrypt.compare(userLogin.password, db_user.password);
+      const result = await bcrypt.compare(userLogin.password, dbUser.password);
 
       // Bad login credentials
       if (!result) {
@@ -93,13 +93,13 @@ export default class UserController {
     try {
       const username = Authorize.getCurrentUser(req, res);
 
-      const db_user = await UserAccessor.getUserByUsername(username);
+      const dbUser = await UserAccessor.getUserByUsername(username);
 
-      if (!db_user) {
+      if (!dbUser) {
         return ErrorUserNotFound.throwHttp(req, res);
       }
 
-      const userResponse = new UserResponse(db_user.toObject());
+      const userResponse = new UserResponse(dbUser.toObject());
 
       res.status(200).json(userResponse);
     } catch (e) {
