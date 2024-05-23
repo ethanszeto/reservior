@@ -21,3 +21,8 @@ const MemorySchema = new Schema(
     collection: "memories",
   }
 );
+
+const db = mongoose.connection.useDb("reservior");
+const Memory = db.model("Memories", MemorySchema);
+
+export default Memory;
