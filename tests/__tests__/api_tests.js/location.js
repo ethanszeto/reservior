@@ -24,10 +24,53 @@ describe("Location tests", () => {
     expect(response.statusCode).toBe(201);
   });
 
+  test("Test create location, brussels --> lysander", async () => {
+    const response = await request(app)
+      .post("/location/add")
+      .send(validLocationCreateBrussels)
+      .set("Cookie", [`token=${lysanderLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(201);
+  });
+
+  test("Test invalid create location, bad type", async () => {
+    const response = await request(app)
+      .post("/location/add")
+      .send(invalidLocationCreateBadType)
+      .set("Cookie", [`token=${abbotLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(400);
+  });
+
+  test("Test invalid create location, missing field", async () => {
+    const response = await request(app)
+      .post("/location/add")
+      .send(invalidLocationCreateMissingField)
+      .set("Cookie", [`token=${abbotLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(400);
+  });
+
   test("Test get all locations, abbot", async () => {
     const response = await request(app)
       .get("/location/me")
       .set("Cookie", [`token=${abbotLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Test get all locations, lysander", async () => {
+    const response = await request(app)
+      .get("/location/me")
+      .set("Cookie", [`token=${lysanderLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Test get all locations, reginald", async () => {
+    const response = await request(app)
+      .get("/location/me")
+      .set("Cookie", [`token=${reginaldLoginToken}`]);
     logTestSuite.location ? console.log(response.body) : null;
     expect(response.statusCode).toBe(200);
   });
