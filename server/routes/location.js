@@ -8,5 +8,6 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.route("/add").post(Authorize.auth, LocationController.createLocation);
 router.route("/me").get(Authorize.auth, LocationController.getAllLocationsMe);
+router.route("/me/:type").get(Authorize.auth, LocationController.getAllLocationsMeByType);
 
 export default router;

@@ -30,4 +30,18 @@ export default class LocationAccessor {
       }
     }
   }
+
+  static async getAllLocationsByUsernameAndType(username, type) {
+    try {
+      await Connection.open();
+      const dbLocations = await Location.find({ user: username, locationTypes: { $in: [type] } });
+      return dbLocations;
+    } catch (e) {
+      if (e instanceof ErrorDatabaseConnection) {
+        throw e;
+      } else {
+        throw new ErrorInternalDatabaseAccessor(e);
+      }
+    }
+  }
 }

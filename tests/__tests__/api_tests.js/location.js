@@ -74,4 +74,36 @@ describe("Location tests", () => {
     logTestSuite.location ? console.log(response.body) : null;
     expect(response.statusCode).toBe(200);
   });
+
+  test("Test get locations country, abbotwells", async () => {
+    const response = await request(app)
+      .get("/location/me/country")
+      .set("Cookie", [`token=${abbotLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Test get locations restaurant, abbotwells", async () => {
+    const response = await request(app)
+      .get("/location/me/restaurant")
+      .set("Cookie", [`token=${abbotLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Test get locations landmark, lysander", async () => {
+    const response = await request(app)
+      .get("/location/me/landmark")
+      .set("Cookie", [`token=${lysanderLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Test invalid get locations, abbot", async () => {
+    const response = await request(app)
+      .get("/location/me/random")
+      .set("Cookie", [`token=${abbotLoginToken}`]);
+    logTestSuite.location ? console.log(response.body) : null;
+    expect(response.statusCode).toBe(200);
+  });
 });

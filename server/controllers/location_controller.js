@@ -36,4 +36,19 @@ export default class LocationController {
       }
     }
   }
+
+  static async getAllLocationsMeByType(req, res) {
+    try {
+      const username = Authorize.getCurrentUser(req, res);
+      const dbLocations = await LocationAccessor.getAllLocationsByUsernameAndType(username, req.params.type);
+      const locations = dbLocations.map((dbLocation) => new LocationResponse(dbLocation.toObject()));
+      res.status(200).json(locations);
+    } catch (e) {
+      if (e instanceof ErrorInternalAPIModelValidation) {
+        ErrorValidation.throwHttp(req, res, e.message);
+      } else {
+        ErrorUnexpected.throwHttp(req, res, e.message);
+      }
+    }
+  }
 }
