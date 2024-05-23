@@ -7,5 +7,6 @@ const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: false }));
 
 router.route("/add").post(Authorize.auth, LocationController.createLocation);
+router.route("/me").get(Authorize.auth, LocationController.getAllLocationsMe);
 
 export default router;

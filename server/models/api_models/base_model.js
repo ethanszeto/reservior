@@ -35,10 +35,10 @@ export class BaseModel {
     // add fields in schema not given in json to json
     for (const key in schema) {
       if (!json.hasOwnProperty(key)) {
-        console.log("before", json);
-        console.log("added key: ", key, " with value: ", json[key]);
+        // console.log("before", json);
+        // console.log("added key: ", key, " with value: ", json[key]);
         json[key] = undefined;
-        console.log("after", json);
+        // console.log("after", json);
       }
     }
 

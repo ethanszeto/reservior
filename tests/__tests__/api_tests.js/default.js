@@ -1,5 +1,10 @@
 import request from "supertest";
 import app from "../../../server/server.js";
+import Connection from "../../../server/db/connection.js";
+
+afterAll(async () => {
+  await Connection.close();
+});
 
 test("Test default route", async () => {
   const response = await request(app).get("/");

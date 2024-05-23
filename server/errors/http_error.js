@@ -42,3 +42,9 @@ export class ErrorInvalidLogin extends HttpError {
     res.status(400).json({ error: "Login with given credentials failed." });
   }
 }
+
+export class ErrorUnexpected extends HttpError {
+  static throwHttp(req, res, msg) {
+    res.status(500).json({ error: "An unexpected error occured.", message: msg });
+  }
+}

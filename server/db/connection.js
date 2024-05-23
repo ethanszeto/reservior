@@ -1,6 +1,7 @@
 import { config as dotenvConfig } from "dotenv";
 import mongoose from "mongoose"; // import mongoose
 import logActivity from "./log_activity.js";
+import { ErrorDatabaseConnection } from "../errors/internal_error.js";
 
 //Connection to the cluster
 let connection;
@@ -24,30 +25,34 @@ export default class Connection {
    * @returns the connection object
    */
   static async open() {
-    if (!connection) {
-      //Load Environment variables
-      dotenvConfig();
+    try {
+      if (!connection) {
+        //Load Environment variables
+        dotenvConfig();
 
-      //Destructure env variables
-      const { MONGODB_INITDB_ROOT_USERNAME, MONGODB_INITDB_ROOT_PASSWORD, MONGODB_INITDB_HOSTNAME, MONGODB_INITDB_PORT } =
-        process.env;
-      const DATABASE_URL = `mongodb://${MONGODB_INITDB_ROOT_USERNAME}:${MONGODB_INITDB_ROOT_PASSWORD}@${MONGODB_INITDB_HOSTNAME}:${MONGODB_INITDB_PORT}`;
+        //Destructure env variables
+        const { MONGODB_INITDB_ROOT_USERNAME, MONGODB_INITDB_ROOT_PASSWORD, MONGODB_INITDB_HOSTNAME, MONGODB_INITDB_PORT } =
+          process.env;
+        const DATABASE_URL = `mongodb://${MONGODB_INITDB_ROOT_USERNAME}:${MONGODB_INITDB_ROOT_PASSWORD}@${MONGODB_INITDB_HOSTNAME}:${MONGODB_INITDB_PORT}`;
 
-      //Mongoose connect to the cluster.
-      mongoose.connect(DATABASE_URL, {
-        maxPoolSize: 50,
-        socketTimeoutMS: 2500,
-        autoIndex: true,
-      });
+        //Mongoose connect to the cluster.
+        mongoose.connect(DATABASE_URL, {
+          maxPoolSize: 50,
+          socketTimeoutMS: 2500,
+          autoIndex: true,
+        });
 
-      connection = mongoose.connection;
+        connection = mongoose.connection;
 
-      //Log when open/closed
-      logActivity(mongoose.connection);
+        //Log when open/closed
+        logActivity(mongoose.connection);
 
-      return mongoose.connection;
-    } else {
-      return connection;
+        return mongoose.connection;
+      } else {
+        return connection;
+      }
+    } catch (e) {
+      throw new ErrorDatabaseConnection(e);
     }
   }
 

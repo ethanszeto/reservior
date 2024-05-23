@@ -1,8 +1,13 @@
 import request from "supertest";
 import app from "../../../server/server.js";
 import Connection from "../../../server/db/connection.js";
+import logTestSuite from "../../util.js";
 import { invalidCreatePerson, validCreatePersonAmy } from "../../test_data/people.js";
 import { abbotLoginToken, lysanderLoginToken, reginaldLoginToken, invalidLoginToken } from "../../test_data/token.js";
+
+afterAll(async () => {
+  await Connection.close();
+});
 
 describe("People tests", () => {
   test("Test create person, Amy --> Abbot", async () => {
@@ -10,7 +15,7 @@ describe("People tests", () => {
       .post("/people/add")
       .send(validCreatePersonAmy)
       .set("Cookie", [`token=${abbotLoginToken}`]);
-    console.log(response.body);
+    logTestSuite.people ? console.log(response.body) : null;
     expect(response.statusCode).toBe(201);
   });
 
@@ -19,7 +24,7 @@ describe("People tests", () => {
       .post("/people/add")
       .send(invalidCreatePerson)
       .set("Cookie", [`token=${abbotLoginToken}`]);
-    console.log(response.body);
+    logTestSuite.people ? console.log(response.body) : null;
     expect(response.statusCode).toBe(400);
   });
 
@@ -27,7 +32,7 @@ describe("People tests", () => {
     const response = await request(app)
       .get("/people/me")
       .set("Cookie", [`token=${abbotLoginToken}`]);
-    console.log(response.body);
+    logTestSuite.people ? console.log(response.body) : null;
     expect(response.statusCode).toBe(200);
   });
 
@@ -35,7 +40,7 @@ describe("People tests", () => {
     const response = await request(app)
       .get("/people/me")
       .set("Cookie", [`token=${lysanderLoginToken}`]);
-    console.log(response.body);
+    logTestSuite.people ? console.log(response.body) : null;
     expect(response.statusCode).toBe(200);
   });
 
@@ -43,8 +48,7 @@ describe("People tests", () => {
     const response = await request(app)
       .get("/people/me")
       .set("Cookie", [`token=${reginaldLoginToken}`]);
-    await Connection.close();
-    console.log(response.body);
+    logTestSuite.people ? console.log(response.body) : null;
     expect(response.statusCode).toBe(200);
   });
 
@@ -52,15 +56,13 @@ describe("People tests", () => {
     const response = await request(app)
       .get("/people/me")
       .set("Cookie", [`token=${invalidLoginToken}`]);
-    await Connection.close();
-    console.log(response.body);
+    logTestSuite.people ? console.log(response.body) : null;
     expect(response.statusCode).toBe(403);
   });
 
   test("Test invalid get people me, missing token", async () => {
     const response = await request(app).get("/people/me");
-    await Connection.close();
-    console.log(response.body);
+    logTestSuite.people ? console.log(response.body) : null;
     expect(response.statusCode).toBe(403);
   });
 });

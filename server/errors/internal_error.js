@@ -39,3 +39,21 @@ export class ErrorAbstractMethodNotInstantiated extends InternalError {
     super(msg);
   }
 }
+
+export class ErrorDatabaseConnection extends InternalError {
+  constructor(msg) {
+    super(msg);
+  }
+}
+
+export class ErrorInternalDatabaseAccessor extends InternalError {
+  constructor(msg) {
+    super(msg);
+  }
+}
+
+export class ErrorInternalUnexpected extends InternalError {
+  constructor(msg) {
+    super(msg);
+  }
+}
