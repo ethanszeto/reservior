@@ -11,7 +11,6 @@ export default class LocationController {
       req.body.user = username;
       const locationCreate = new LocationCreate(req.body);
       const dbLocation = await LocationAccessor.createLocation(locationCreate);
-      console.log(dbLocation);
       const locationResponse = new LocationResponse(dbLocation.toObject());
       res.status(201).json(locationResponse);
     } catch (e) {

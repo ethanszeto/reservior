@@ -69,7 +69,6 @@ export class MemoryResponse extends BaseModel {
 export class MemoryUpdate extends BaseModelUpdate {
   static schema = {
     times: { type: [string] },
-    user: { type: string, required: true },
     locations: { type: [string] },
     sections: {
       type: [

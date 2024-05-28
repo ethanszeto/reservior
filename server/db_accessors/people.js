@@ -23,4 +23,15 @@ export default class PeopleAccessor {
       throw e;
     }
   }
+
+  static async getPeopleByUserAndName(username, personName) {
+    try {
+      await Connection.open();
+      const people = await People.find({ user: username, name: personName });
+      return people;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
 }
