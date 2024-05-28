@@ -16,7 +16,7 @@ export class LocationCreate extends BaseModel {
 
 export class LocationResponse extends BaseModel {
   static schema = {
-    _id: { type: object },
+    _id: { type: object, required: true },
     location: { type: string, required: true },
     locationTypes: { type: [string], enum: LocationType.listr() },
     user: { type: string, required: true },

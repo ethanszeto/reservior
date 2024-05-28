@@ -7,5 +7,5 @@ const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: false }));
 
 router.route("/add").post(Authorize.auth, MemoryController.createMemory);
-router.route("/me").post(Authorize.auth, MemoryController.createMemory);
-router.route("/me/:location").post(Authorize.auth, MemoryController.createMemory);
+router.route("/me").post(Authorize.auth, MemoryController.getMemoriesMe);
+router.route("/me/:locationId").post(Authorize.auth, MemoryController.getMemoriesMeByLocationId);
