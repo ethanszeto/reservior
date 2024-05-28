@@ -11,6 +11,7 @@ export default class LocationController {
       req.body.user = username;
       const locationCreate = new LocationCreate(req.body);
       const dbLocation = await LocationAccessor.createLocation(locationCreate);
+      console.log(dbLocation);
       const locationResponse = new LocationResponse(dbLocation.toObject());
       res.status(201).json(locationResponse);
     } catch (e) {
@@ -37,7 +38,7 @@ export default class LocationController {
     }
   }
 
-  static async getAllLocationsMeByType(req, res) {
+  static async getLocationsMeByType(req, res) {
     try {
       const username = Authorize.getCurrentUser(req, res);
       const dbLocations = await LocationAccessor.getAllLocationsByUsernameAndType(username, req.params.type);

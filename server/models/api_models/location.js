@@ -1,4 +1,4 @@
-import { BaseModel, string, date, now, BaseModelUpdate } from "./base_model.js";
+import { BaseModel, string, date, now, object, BaseModelUpdate } from "./base_model.js";
 import { LocationType } from "../enums/enums.js";
 
 export class LocationCreate extends BaseModel {
@@ -16,6 +16,7 @@ export class LocationCreate extends BaseModel {
 
 export class LocationResponse extends BaseModel {
   static schema = {
+    _id: { type: object },
     location: { type: string, required: true },
     locationTypes: { type: [string], enum: LocationType.listr() },
     user: { type: string, required: true },

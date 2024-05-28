@@ -88,9 +88,17 @@ export class BaseModel {
         continue;
       }
 
+      // objectOnly
+      if (type(schemaType) === objectOnly) {
+        if (type(value) !== object) {
+          throw new ErrorInternalAPIModelFieldValidation(`Field '${key}' must have type '${schemaType}'. Given: ${value}`);
+        }
+        continue;
+      }
+
       // mismatch type
       if (type(value) !== type(schemaType)) {
-        throw new ErrorInternalAPIModelFieldValidation(`Field '${key}' must have type '${schemaType}.' Given: ${value}`);
+        throw new ErrorInternalAPIModelFieldValidation(`Field '${key}' must have type '${schemaType}'. Given: ${value}`);
       }
 
       // enum values (check complex enum values, like objects or lists)
@@ -162,6 +170,8 @@ export const object = "object";
 export const date = "date";
 export const empty = "undefined";
 
+const objectOnly = "objectOnly";
+
 // current date default option
 export const now = () => new Date();
 
@@ -189,7 +199,7 @@ function type(obj) {
       case string:
         return string;
       case object:
-        return object;
+        return objectOnly;
       case array:
         return array;
       case date:
