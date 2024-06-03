@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import UserSchema from "../db_models/user.js";
 import LocationSchema from "../db_models/location.js";
 import PeopleSchema from "../db_models/people.js";
-import { SectionType } from "../enums/enums";
+import { SectionType } from "../enums/enums.js";
 
 const Schema = mongoose.Schema;
 
