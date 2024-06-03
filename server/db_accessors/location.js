@@ -44,4 +44,18 @@ export default class LocationAccessor {
       }
     }
   }
+
+  static async getLocationByUserAndLocationName(username, locationName) {
+    try {
+      await Connection.open();
+      const dbLocation = await Location.findOne({ user: username, location: locationName });
+      return dbLocation;
+    } catch (e) {
+      if (e instanceof ErrorDatabaseConnection) {
+        throw e;
+      } else {
+        throw new ErrorInternalDatabaseAccessor(e);
+      }
+    }
+  }
 }

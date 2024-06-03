@@ -1,5 +1,8 @@
+import mongoose from "mongoose";
+
 export default [
   {
+    _id: new mongoose.Types.ObjectId("000000000000000000000000"),
     firstName: "Abbot",
     lastName: "Wells",
     username: "abbotwells",
@@ -8,6 +11,7 @@ export default [
     modificationTime: new Date("2024-01-01"),
   },
   {
+    _id: new mongoose.Types.ObjectId("100000000000000000000000"),
     firstName: "Lysander",
     lastName: "Fitzroy",
     username: "lysfitz",
@@ -16,6 +20,7 @@ export default [
     modificationTime: new Date("2024-02-02"),
   },
   {
+    _id: new mongoose.Types.ObjectId("200000000000000000000000"),
     firstName: "Reginald",
     lastName: "Wyndham",
     username: "regwind",

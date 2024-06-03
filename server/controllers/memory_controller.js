@@ -1,6 +1,8 @@
 import Authorize from "../auth/authorization.js";
 import MemoryAccessor from "../db_accessors/memory.js";
 import PeopleAccessor from "../db_accessors/people.js";
+import LocationAccessor from "../db_accessors/location.js";
+import mongoose from "mongoose";
 import { MemoryCreate, MemoryCreateInternal, MemoryResponse } from "../models/api_models/memory.js";
 import { ErrorInternalAPIModelValidation } from "../errors/internal_error.js";
 import { ErrorValidation, ErrorUnexpected } from "../errors/http_error.js";
@@ -12,20 +14,25 @@ export default class MemoryController {
    */
   static async convertMemoryToInternalMemory(memoryCreate) {
     // location names
-    for (const location of memoryCreate.locations) {
-    }
+    const locationIds = await Promise.all(
+      memoryCreate.locations.map(async (location) => {
+        const dbLocation = await LocationAccessor.getLocationByUserAndLocationName(memoryCreate.user, location.location);
+        return new mongoose.Types.ObjectId(dbLocation._id);
+      })
+    );
+
+    memoryCreate.locations = locationIds;
 
     // people name
+    const dbPeople = (await PeopleAccessor.getPeopleByUser(memoryCreate.user)).toObject();
     for (const section of memoryCreate.sections) {
-      /* Interesting phenomenon here!
-
-      I have the option to find all people by user, and thus force
-      myself into an O(n^2) solution, however with only 1 database call,
-      or I can iterate once, but make n many database calls. Which is better?
-      
-      */
-      PeopleAccessor.getPeopleByUserAndName();
+      const peopleIds = section.people.map((personName) => {
+        dbPeople.find((dbPerson) => personName == dbPerson.name);
+      });
+      section.people = peopleIds;
     }
+
+    return memoryCreate;
   }
 
   static async createMemory(req, res) {
@@ -34,8 +41,10 @@ export default class MemoryController {
       req.body.user = username;
 
       const memoryCreate = new MemoryCreate(req.body);
-
-      const dbMemory = await MemoryAccessor.createMemory(memoryCreate);
+      const memoryCreateInternal = new MemoryCreateInternal(memoryCreate);
+      const dbMemory = await MemoryAccessor.createMemory(memoryCreateInternal);
+      const memory = new MemoryResponse(dbMemory);
+      res.status(201).json(memory);
     } catch (e) {
       if (e instanceof ErrorInternalAPIModelValidation) {
         ErrorValidation.throwHttp(req, res, e.message);

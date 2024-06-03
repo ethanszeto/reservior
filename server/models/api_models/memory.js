@@ -10,7 +10,7 @@ export class MemoryCreate extends BaseModel {
         {
           text: { type: string, default: "" },
           sectionType: { type: string, enum: SectionType.listr() },
-          people: { type: string },
+          people: { type: [string] },
         },
       ],
     },
@@ -32,7 +32,7 @@ export class MemoryCreateInternal extends BaseModel {
         {
           text: { type: string, default: "" },
           sectionType: { type: string, enum: SectionType.listr() },
-          people: { type: object },
+          people: { type: [object] },
         },
       ],
     },
@@ -54,7 +54,7 @@ export class MemoryResponse extends BaseModel {
         {
           text: { type: string, default: "" },
           sectionType: { type: string, enum: SectionType.listr() },
-          people: { type: string },
+          people: { type: [string] },
         },
       ],
     },
@@ -75,7 +75,7 @@ export class MemoryUpdate extends BaseModelUpdate {
         {
           text: { type: string, default: "" },
           sectionType: { type: string, enum: SectionType.listr() },
-          people: { type: object },
+          people: { type: [object] },
         },
       ],
     },
