@@ -1,3 +1,4 @@
+import util from "util";
 import request from "supertest";
 import app from "../../../server/server.js";
 import Connection from "../../../server/db/connection.js";
@@ -15,7 +16,7 @@ describe("Memory tests", () => {
       .post("/memory/add")
       .send(validCreateMemoryAbbot)
       .set("Cookie", [`token=${abbotLoginToken}`]);
-    logTestSuite.memory ? console.log(response.body) : null;
+    logTestSuite.memory ? console.log(util.inspect(response.body, false, null)) : null;
     expect(response.statusCode).toBe(201);
   });
 });
