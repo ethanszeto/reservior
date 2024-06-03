@@ -13,3 +13,5 @@ router.route("/me/:locationId").get(Authorize.auth, MemoryController.getMemories
 router.route("/me/:peopleId").get(Authorize.auth, MemoryController.getMemoriesMeByPerson);
 router.route("/me/facts/:personId").get(Authorize.auth, MemoryController.getFactsByPerson);
 router.route("/me/anecdotes/:personId").get(Authorize.auth, MemoryController.getAnecdotesByPerson);
+
+export default router;

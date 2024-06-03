@@ -1,4 +1,5 @@
-import { BaseModel, string, now, object, BaseModelUpdate } from "../api_models/base_model.js";
+import { SectionType } from "../enums/enums.js";
+import { BaseModel, string, date, now, object, BaseModelUpdate } from "../api_models/base_model.js";
 
 export class MemoryCreate extends BaseModel {
   static schema = {
@@ -47,14 +48,13 @@ export class MemoryCreateInternal extends BaseModel {
 export class MemoryResponse extends BaseModel {
   static schema = {
     times: { type: [string], required: true },
-    user: { type: string, required: true },
-    locations: { type: [string], required: true },
+    locations: { type: [object], required: true },
     sections: {
       type: [
         {
           text: { type: string, default: "" },
           sectionType: { type: string, enum: SectionType.listr() },
-          people: { type: [string] },
+          people: { type: [object] },
         },
       ],
     },

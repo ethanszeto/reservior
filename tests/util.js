@@ -4,4 +4,5 @@ export default {
   location: false,
   people: false,
   user: false,
+  memory: true,
 };

@@ -70,6 +70,7 @@ export default class Connection {
     if (connection) {
       await connection.close();
       logActivity(connection);
+      connection = undefined;
     }
   }
 }

@@ -7,6 +7,7 @@ import defaultRouter from "./routes/default.js";
 import userRouter from "./routes/user.js";
 import peopleRouter from "./routes/people.js";
 import locationRouter from "./routes/location.js";
+import memoryRouter from "./routes/memory.js";
 
 /**
  * This file controls the express server and
@@ -25,5 +26,6 @@ app.use("/", defaultRouter);
 app.use("/user", userRouter);
 app.use("/people", peopleRouter);
 app.use("/location", locationRouter);
+app.use("/memory", memoryRouter);
 
 export default app;
