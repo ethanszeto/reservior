@@ -22,10 +22,9 @@ describe("Memory tests", () => {
 
   test("Test get memories me, abbot", async () => {
     const response = await request(app)
-      .post("/memory/add")
-      .send(validCreateMemoryAbbot)
+      .get("/memory/me")
       .set("Cookie", [`token=${abbotLoginToken}`]);
     logTestSuite.memory ? console.log(util.inspect(response.body, false, null)) : null;
-    expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toBe(200);
   });
 });

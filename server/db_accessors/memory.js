@@ -32,10 +32,14 @@ export default class MemoryAccessor {
     }
   }
 
-  static async getMemoryByUserId(userId) {
+  static async getMemoriesByUserId(userId) {
     try {
       await Connection.open();
-      const dbMemories = await Memory.find({ user: userId });
+      const dbMemories = await Memory.find({ user: userId })
+        .populate("user")
+        .populate("locations")
+        .populate("sections.people")
+        .exec();
       return dbMemories;
     } catch (e) {
       if (e instanceof ErrorDatabaseConnection) {

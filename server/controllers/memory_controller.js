@@ -73,7 +73,7 @@ export default class MemoryController {
       const username = Authorize.getCurrentUser(req, res);
 
       const dbUser = await UserAccessor.getUserByUsername(username);
-      const dbMemories = await MemoryAccessor.getMemoryByUserId(dbUser._id);
+      const dbMemories = await MemoryAccessor.getMemoriesByUserId(dbUser._id);
 
       const memories = dbMemories.map((dbMemory) => {
         return new MemoryResponse(dbMemory.toObject());
