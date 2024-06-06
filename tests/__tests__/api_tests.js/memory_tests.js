@@ -19,4 +19,13 @@ describe("Memory tests", () => {
     logTestSuite.memory ? console.log(util.inspect(response.body, false, null)) : null;
     expect(response.statusCode).toBe(201);
   });
+
+  test("Test get memories me, abbot", async () => {
+    const response = await request(app)
+      .post("/memory/add")
+      .send(validCreateMemoryAbbot)
+      .set("Cookie", [`token=${abbotLoginToken}`]);
+    logTestSuite.memory ? console.log(util.inspect(response.body, false, null)) : null;
+    expect(response.statusCode).toBe(201);
+  });
 });

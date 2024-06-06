@@ -15,7 +15,7 @@ const MemorySchema = new Schema(
       {
         text: { type: String, default: "", required: true },
         sectionType: { type: String, enum: SectionType.listr() },
-        people: [{ type: Schema.Types.ObjectId, ref: PeopleSchema }],
+        people: [{ type: Schema.Types.ObjectId, ref: PeopleSchema, required: false }],
       },
     ],
     creationTime: { type: Date, required: true },

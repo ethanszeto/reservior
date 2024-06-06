@@ -42,8 +42,10 @@ export default class MemoryController {
   }
 
   /**
-   * Create memory
+   * create memory
    *
+   * @param {*} req
+   * @param {*} res
    */
   static async createMemory(req, res) {
     try {
@@ -66,7 +68,27 @@ export default class MemoryController {
     }
   }
 
-  static async getMemoriesMe(req, res) {}
+  static async getMemoriesMe(req, res) {
+    try {
+      const username = Authorize.getCurrentUser(req, res);
+
+      const dbUser = await UserAccessor.getUserByUsername(username);
+      const dbMemories = await MemoryAccessor.getMemoryByUserId(dbUser._id);
+
+      const memories = dbMemories.map((dbMemory) => {
+        return new MemoryResponse(dbMemory.toObject());
+      });
+
+      res.status(200).json(memories);
+    } catch (e) {
+      if (e instanceof ErrorInternalAPIModelValidation) {
+        ErrorValidation.throwHttp(req, res, e.message);
+      } else {
+        ErrorUnexpected.throwHttp(req, res, e.message);
+      }
+    }
+  }
+
   static async updateMemoryById(req, res) {}
   static async getMemoriesMeByLocationId(req, res) {}
   static async getMemoriesMeByPerson(req, res) {}
