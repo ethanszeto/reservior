@@ -47,6 +47,7 @@ export class MemoryCreateInternal extends BaseModel {
 
 export class MemoryResponse extends BaseModel {
   static schema = {
+    _id: { type: object, required: true },
     times: { type: [string], required: true },
     locations: { type: [object], required: true },
     sections: {
