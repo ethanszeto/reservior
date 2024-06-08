@@ -49,4 +49,29 @@ export default class MemoryAccessor {
       }
     }
   }
+
+  /**
+   * Update memory by memory id
+   *
+   * @param {ObjectId} memoryId
+   * @param {MemoryUpdate} memoryUpdate
+   * @returns {Memory}
+   */
+  static async updateMemory(memoryId, memoryUpdate) {
+    try {
+      await Connection.open();
+      const dbMemory = await Memory.findOneAndUpdate({ _id: memoryId }, memoryUpdate, { new: true })
+        .populate("user")
+        .populate("locations")
+        .populate("sections.people")
+        .exec();
+      return dbMemory;
+    } catch (e) {
+      if (e instanceof ErrorDatabaseConnection) {
+        throw e;
+      } else {
+        throw new ErrorInternalDatabaseAccessor(e);
+      }
+    }
+  }
 }

@@ -3,7 +3,7 @@ import MemoryAccessor from "../db_accessors/memory.js";
 import PeopleAccessor from "../db_accessors/people.js";
 import LocationAccessor from "../db_accessors/location.js";
 import mongoose from "mongoose";
-import { MemoryCreate, MemoryCreateInternal, MemoryResponse } from "../models/api_models/memory.js";
+import { MemoryCreate, MemoryCreateInternal, MemoryResponse, MemoryUpdate } from "../models/api_models/memory.js";
 import { ErrorInternalAPIModelValidation } from "../errors/internal_error.js";
 import { ErrorValidation, ErrorUnexpected } from "../errors/http_error.js";
 import UserAccessor from "../db_accessors/user.js";
@@ -89,7 +89,22 @@ export default class MemoryController {
     }
   }
 
-  static async updateMemoryById(req, res) {}
+  static async updateMemoryById(req, res) {
+    try {
+      const memoryId = req.params.memoryId;
+      const memoryUpdate = new MemoryUpdate(req.body);
+      const dbMemory = await MemoryAccessor.updateMemory(memoryId, memoryUpdate);
+      const memoryResponse = new MemoryResponse(dbMemory);
+      res.status(204).json(memoryResponse);
+    } catch (e) {
+      if (e instanceof ErrorInternalAPIModelValidation) {
+        ErrorValidation.throwHttp(req, res, e.message);
+      } else {
+        ErrorUnexpected.throwHttp(req, res, e.message);
+      }
+    }
+  }
+
   static async getMemoriesMeByLocationId(req, res) {}
   static async getMemoriesMeByPerson(req, res) {}
   static async getFactsByPerson(req, res) {}
