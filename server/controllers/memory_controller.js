@@ -91,11 +91,11 @@ export default class MemoryController {
 
   static async updateMemoryById(req, res) {
     try {
-      const memoryId = req.params.memoryId;
+      const memoryId = req.params["memoryId"];
       const memoryUpdate = new MemoryUpdate(req.body);
       const dbMemory = await MemoryAccessor.updateMemory(memoryId, memoryUpdate);
-      const memoryResponse = new MemoryResponse(dbMemory);
-      res.status(204).json(memoryResponse);
+      const memoryResponse = new MemoryResponse(dbMemory.toObject());
+      res.status(204).json({ memoryResponse });
     } catch (e) {
       if (e instanceof ErrorInternalAPIModelValidation) {
         ErrorValidation.throwHttp(req, res, e.message);

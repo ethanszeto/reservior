@@ -17,3 +17,27 @@ export const validCreateMemoryAbbot = {
     },
   ],
 };
+
+export const validUpdateAddTimeMemoryAbbot = {
+  times: ["Early evening", "Late at night"],
+};
+
+export const validUpdateAddSectionMemoryAbbot = {
+  sections: [
+    {
+      text: "I spent time walking around Devon House for the very last time.",
+      sectionType: "anecdote",
+      people: [new mongoose.Types.ObjectId("300000000000000000000000")],
+    },
+    {
+      text: "Hadrian had a good time talking about his wall.",
+      sectionType: "anecdote",
+      people: [new mongoose.Types.ObjectId("400000000000000000000000")],
+    },
+    {
+      text: "Great times around the house as well.",
+      sectionType: "anecdote",
+      people: [new mongoose.Types.ObjectId("300000000000000000000000"), new mongoose.Types.ObjectId("400000000000000000000000")],
+    },
+  ],
+};

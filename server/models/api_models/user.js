@@ -1,4 +1,4 @@
-import { BaseModel, BaseModelUpdate, string, date, now } from "./base_model.js";
+import { BaseModel, BaseModelUpdate, string, date, object, now } from "./base_model.js";
 
 export class UserCreate extends BaseModel {
   static schema = {
@@ -16,6 +16,7 @@ export class UserCreate extends BaseModel {
 
 export class UserResponse extends BaseModel {
   static schema = {
+    _id: { type: object, required: true },
     firstName: { type: string, required: true },
     lastName: { type: string, required: true },
     username: { type: string, required: true },

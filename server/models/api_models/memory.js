@@ -53,6 +53,7 @@ export class MemoryResponse extends BaseModel {
     sections: {
       type: [
         {
+          _id: { type: object, required: true },
           text: { type: string, default: "" },
           sectionType: { type: string, enum: SectionType.listr() },
           people: { type: [object] },

@@ -1,4 +1,4 @@
-import Connection from "../db/connection";
+import Connection from "../db/connection.js";
 import Memory from "../models/db_models/memory.js";
 import mongoose from "mongoose";
 import { ErrorDatabaseConnection, ErrorInternalDatabaseAccessor } from "../errors/internal_error.js";
@@ -55,7 +55,7 @@ export default class MemoryAccessor {
    *
    * @param {ObjectId} memoryId
    * @param {MemoryUpdate} memoryUpdate
-   * @returns {Memory}
+   * @returns
    */
   static async updateMemory(memoryId, memoryUpdate) {
     try {
