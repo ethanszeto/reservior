@@ -94,8 +94,9 @@ export default class MemoryController {
       const memoryId = req.params["memoryId"];
       const memoryUpdate = new MemoryUpdate(req.body);
       const dbMemory = await MemoryAccessor.updateMemory(memoryId, memoryUpdate);
-      const memoryResponse = new MemoryResponse(dbMemory.toObject());
-      res.status(204).json({ memoryResponse });
+      //const memoryResponse = new MemoryResponse(dbMemory.toObject());
+      // apparently cant send JSON back through a patch.
+      res.status(204).json({});
     } catch (e) {
       if (e instanceof ErrorInternalAPIModelValidation) {
         ErrorValidation.throwHttp(req, res, e.message);

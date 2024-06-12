@@ -41,3 +41,7 @@ export const validUpdateAddSectionMemoryAbbot = {
     },
   ],
 };
+
+export const validUpdateAddLocationMemoryAbbot = {
+  locations: [new mongoose.Types.ObjectId("900000000000000000000000"), new mongoose.Types.ObjectId("800000000000000000000000")],
+};

@@ -5,6 +5,7 @@ import Connection from "../../../server/db/connection.js";
 import logTestSuite from "../../util.js";
 import {
   validCreateMemoryAbbot,
+  validUpdateAddLocationMemoryAbbot,
   validUpdateAddSectionMemoryAbbot,
   validUpdateAddTimeMemoryAbbot,
 } from "../../test_data/memory.js";
@@ -45,6 +46,15 @@ describe("Memory tests", () => {
     const response = await request(app)
       .patch("/memory/me/update/d00000000000000000000000")
       .send(validUpdateAddSectionMemoryAbbot)
+      .set("Cookie", [`token=${abbotLoginToken}`]);
+    logTestSuite.memory ? console.log(util.inspect(response.body, false, null)) : null;
+    expect(response.statusCode).toBe(204);
+  });
+
+  test("Test update memories me, update (add) location, abbot", async () => {
+    const response = await request(app)
+      .patch("/memory/me/update/d00000000000000000000000")
+      .send(validUpdateAddLocationMemoryAbbot)
       .set("Cookie", [`token=${abbotLoginToken}`]);
     logTestSuite.memory ? console.log(util.inspect(response.body, false, null)) : null;
     expect(response.statusCode).toBe(204);
