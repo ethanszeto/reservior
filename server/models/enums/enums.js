@@ -16,4 +16,5 @@ export class LocationType extends BaseEnum {
 export class SectionType extends BaseEnum {
   static anecdote = new SectionType("anecdote");
   static fact = new SectionType("fact");
+  static thought = new SectionType("thought");
 }
