@@ -8,6 +8,8 @@ import userRouter from "./routes/user.js";
 import peopleRouter from "./routes/people.js";
 import locationRouter from "./routes/location.js";
 import memoryRouter from "./routes/memory.js";
+import serverLog from "./util/server_log.js";
+import { set } from "./util/color_terminal.js";
 
 /**
  * This file controls the express server and
@@ -16,7 +18,13 @@ import memoryRouter from "./routes/memory.js";
  */
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());

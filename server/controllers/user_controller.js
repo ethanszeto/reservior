@@ -37,6 +37,7 @@ export default class UserController {
    * @returns
    */
   static async login(req, res) {
+    console.log(JSON.stringify(req.body));
     try {
       const userLogin = new UserLogin(req.body);
 
@@ -71,6 +72,8 @@ export default class UserController {
       res.cookie("token", token, {
         httpOnly: true,
         maxAge: 60 * 60 * 1000,
+        sameSite: "None",
+        secure: true,
       });
       res.status(200).json({ message: "Login successful." });
     } catch (e) {

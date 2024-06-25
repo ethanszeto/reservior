@@ -12,8 +12,10 @@ services:
       - ${SERVER_PORT}:${SERVER_PORT}
     volumes:
       - .:/app
+    networks:
+      - backend-network
   mongodb:
-    image: mongodb/mongodb-community-server:6.0-ubi8
+    image: mongo
     container_name: reservior-database
     env_file:
       - .env
@@ -24,3 +26,9 @@ services:
       - ${MONGODB_INITDB_PORT}:${MONGODB_INITDB_PORT}
     volumes:
       - ./.database:/data/db
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
