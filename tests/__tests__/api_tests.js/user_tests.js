@@ -13,12 +13,6 @@ import {
   validLoginReginald,
 } from "../../test_data/user.js";
 
-beforeAll(async () => {
-  app.use((req, res, next) => {
-    next();
-  });
-});
-
 afterAll(async () => {
   await Connection.close();
 });
